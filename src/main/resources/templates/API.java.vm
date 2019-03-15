@@ -1,0 +1,37 @@
+package ${package}.${moduleName};
+
+import static io.restassured.RestAssured.given;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+
+import org.testng.annotations.Test;
+
+/**
+ * 
+ * @author ${author}
+ * @email ${email}
+ */
+public class ${module.clazzName}Test {
+
+#foreach ($item in $module.items)
+
+	public void ${item.name}(#foreach ($param in $item.params)String ${param.key}#if($foreach.hasNext),#end#end) {
+		RequestSpecification httpRequest = given();
+	#foreach ($param in $item.params)
+	httpRequest.param("$param.key", $param.key);
+	#end
+	Response response = httpRequest.${item.method}("${item.path}");
+		assert (response.getStatusCode() == 200);
+	}
+	
+#end
+	
+	@Test()
+	public void test${module.clazzName}(){
+		#foreach ($item in $module.items)
+		${item.name}(#foreach ($param in $item.params)"${param.value}"#if($foreach.hasNext),#end#end);
+		#end
+		
+	}
+	
+}
