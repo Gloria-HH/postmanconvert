@@ -4,6 +4,7 @@
 .DS_Store
 /bin
 mvnw*
+.mvn
 
 !.mvn/wrapper/maven-wrapper.jar
 
